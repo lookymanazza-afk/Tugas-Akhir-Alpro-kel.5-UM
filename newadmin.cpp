@@ -67,6 +67,24 @@ string getStatusText(Status s) {
     }
 }
 
+// FUNCTION VALIDASI INPUT ANGKA
+int inputAngka(string pesan) {
+    int nilai;
+
+    while (true) {
+        cout << pesan;
+        cin >> nilai;
+
+        if (cin.fail()) {
+            cout << "[ERROR] Input harus berupa angka!\n";
+            cin.clear();
+            cin.ignore(10000, '\n');
+        } else {
+            return nilai;
+        }
+    }
+} 
+
 // 5. FUNCTION ADMIN: Menambah data baru ke Array Dinamis
 void tambahDataAset(AsetStudio*& daftar, int& jumlah) {
     AsetStudio* daftarBaru = new AsetStudio[jumlah + 1];
@@ -102,8 +120,20 @@ void tambahDataAset(AsetStudio*& daftar, int& jumlah) {
         itemBaru.jamTersedia = JAM_OPERASIONAL[0];
     }
 
-    cout << "Harga Sewa per Jam (Rp): ";
-    cin >> itemBaru.hargaPerJam;
+    do {
+        cout << "Harga Sewa per Jam (Rp): ";
+        cin >> itemBaru.hargaPerJam;
+
+        if (cin.fail()) {
+            cout << "[ERROR] Harga harus berupa angka!\n";
+            cin.clear();
+            cin.ignore(10000, '\n');
+            itemBaru.hargaPerJam = 0;
+        } else if (itemBaru.hargaPerJam <= 0) {
+            cout << "[ERROR] Harga harus lebih dari 0!\n";
+        }
+
+    } while (itemBaru.hargaPerJam <= 0);
 
     int pilStatus;
     cout << "Status Awal (1. Tersedia | 2. Disewa | 3. Maintenance): ";
